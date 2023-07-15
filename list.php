@@ -2,12 +2,12 @@
 
 error_reporting(1);
 include 'connection.php';
-
 include 'delete.php';
 
 $query = "SELECT * FROM hotels";
 $result = mysqli_query($con, $query);
 $hotels = [];
+
 while ($row = mysqli_fetch_assoc($result)) {
     $hotelId = $row['id'];
     $query = "SELECT path FROM images WHERE hotel_id = ?";
@@ -16,9 +16,11 @@ while ($row = mysqli_fetch_assoc($result)) {
     mysqli_stmt_execute($stmt);
     $imageResult = mysqli_stmt_get_result($stmt);
     $images = [];
+
     while ($imageRow = mysqli_fetch_assoc($imageResult)) {
         $images[] = $imageRow['path'];
     }
+
     $row['images'] = $images;
     $hotels[] = $row;
 }
@@ -149,7 +151,8 @@ while ($row = mysqli_fetch_assoc($result)) {
                 <td>
                     <a href="insert.php?insert=<?php echo $hotel['id']; ?>" class="btn btn-success">Create</a>
                     <a href="edit.php?edit=<?php echo $hotel['id']; ?>" class="btn btn-primary">Edit</a>
-                    <a href="list.php?delete=<?php echo $hotel['id']; ?>" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this hotel?')">Delete</a>
+                    <a href="list.php?delete=<?php echo $hotel['id']; ?>" class="btn btn-danger"
+                       onclick="return confirm('Are you sure you want to delete this hotel?')">Delete</a>
                 </td>
             </tr>
         <?php endforeach; ?>
@@ -159,10 +162,10 @@ while ($row = mysqli_fetch_assoc($result)) {
 
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script>
-    $(document).ready(function() {
-        $('#search').keyup(function() {
+    $(document).ready(function () {
+        $('#search').keyup(function () {
             var searchValue = $(this).val().toLowerCase();
-            $('.table-body tr').filter(function() {
+            $('.table-body tr').filter(function () {
                 $(this).toggle($(this).text().toLowerCase().indexOf(searchValue) > -1)
             });
         });
