@@ -141,17 +141,17 @@ while ($row = mysqli_fetch_assoc($result)) {
                     <?php if (!empty($hotel['images'])) : ?>
                         <ul>
                             <?php foreach ($hotel['images'] as $image) : ?>
-                                <li>
+                                
                                     <img src="<?php echo $image; ?>" alt="Hotel Image" width="50">
-                                </li>
+                                
                             <?php endforeach; ?>
                         </ul>
                     <?php endif; ?>
                 </td>
                 <td>
-                    <a href="insert.php?insert=<?php echo $hotel['id']; ?>" class="btn btn-success">Create</a>
+                    <a href="insert.php" class="btn btn-success">Create</a>
                     <a href="edit.php?edit=<?php echo $hotel['id']; ?>" class="btn btn-primary">Edit</a>
-                    <a href="list.php?delete=<?php echo $hotel['id']; ?>" class="btn btn-danger"
+                    <a href="index.php?delete=<?php echo $hotel['id']; ?>" class="btn btn-danger"
                        onclick="return confirm('Are you sure you want to delete this hotel?')">Delete</a>
                 </td>
             </tr>

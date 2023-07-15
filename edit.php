@@ -32,11 +32,9 @@ if (isset($_POST['submit'])) {
         }
     }
 
-    
-    header("Location: list.php");
+    header("Location: index.php");
     exit();
 }
-
 
 $hotelId = $_GET['edit'];
 $query = "SELECT * FROM hotels WHERE id = '$hotelId'";
@@ -173,12 +171,9 @@ $hotel = mysqli_fetch_assoc($result);
                             }
                             ?>
                         </div>
+                        <button type="submit" name="submit" class="btn btn-primary">Update</button>
+                        <a href="index.php" class="btn btn-secondary">Cancel</a>
                     </td>
-                </tr>
-                <tr>
-                    <td colspan="2"><button type="submit" name="submit" class="btn btn-primary">Cancel</button></td>
-                
-                </tr>
             </table>
         </form>
     </div>
