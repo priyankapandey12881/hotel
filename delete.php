@@ -1,14 +1,13 @@
 <?php
-if (isset($_GET['delete'])) {
+require_once('vendor/autoload.php');
+use App\Database\DatabaseConnection;
+use App\Services\HotelService;
+$hotels = HotelService::getAllHotels();
+
+if (isset($_GET['delete']))
+{
     $hotelId = $_GET['delete'];
-    
-    
-    $deleteQuery = "DELETE FROM hotels WHERE id = '$hotelId'";
-    mysqli_query($con, $deleteQuery);
-    
-    // $deleteImagesQuery = "DELETE FROM images WHERE hotel_id = '$hotelId'";
-    // mysqli_query($con, $deleteImagesQuery);
-    
+    $hotels = HotelService::deleteHotel($hotelId);
     header("Location: index.php");
     exit();
 }
