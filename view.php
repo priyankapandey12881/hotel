@@ -47,9 +47,11 @@ if (isset($_GET['id'])) {
                 <td>
                     <?php
                     $db = new DatabaseConnection();
-                    $imageQuery = "SELECT * FROM images WHERE hotel_id = '$hotelId'";
-                    $imageResult = mysqli_query($db->con, $imageQuery);
-                    while ($image = mysqli_fetch_assoc($imageResult)) {
+                    $table = 'images';
+                    $columns = [];
+                    $conditions = ['hotel_id' => $hotelId];
+                    $result = $db->select($table, $conditions, $columns);
+                    while ($image = mysqli_fetch_assoc($result)) {
                         echo '<img src="' . $image['path'] . '" alt="Image" style="max-width: 200px; max-height: 200px; margin-right: 10px;">';
                     }
                     ?>

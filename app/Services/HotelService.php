@@ -79,27 +79,20 @@ class HotelService
     public static function getAllHotels()
     {
         $db = new DatabaseConnection();
-        $query = "SELECT * FROM hotels";
-        // $table = 'hotels';
-        // $columns = ['*'];
-        // $conditions = [];
-        // $data = $db->select($table, $conditions, $columns);
-
-
-        $result = mysqli_query($db->con, $query);
+        $table = 'hotels';
+        $columns = [];
+        $conditions = [];
+        $result = $db->select($table, $conditions, $columns);
         $hotels = [];
-
         while ($row = mysqli_fetch_assoc($result)) {
             $hotelId = $row['id'];
-            $query = "SELECT path FROM images WHERE hotel_id = ?";
-            $stmt = mysqli_prepare($db->con, $query);
-            mysqli_stmt_bind_param($stmt, 'i', $hotelId);
-            mysqli_stmt_execute($stmt);
-            $imageResult = mysqli_stmt_get_result($stmt);
+            $table = 'images';
+            $columns = ['path'];
+            $conditions = ['hotel_id' => $hotelId];
+            $imageResult = $db->select($table, $conditions, $columns);
             $images = [];
 
-            while ($imageRow = mysqli_fetch_assoc($imageResult))
-             {
+            while ($imageRow = mysqli_fetch_assoc($imageResult)) {
                 $images[] = $imageRow['path'];
             }
 
@@ -126,13 +119,6 @@ class HotelService
         }
     }
 
-    public static function insertImage($hotelId, $imagePath)
-    {
-        $db = new DatabaseConnection();
-        $query = "INSERT INTO images (hotel_id, path) VALUES ('$hotelId', '$imagePath')";
-        mysqli_query($db->con, $query);
-    }
-
     public  static function deleteImages($hotelId)
     {
         $db = new DatabaseConnection();
@@ -143,8 +129,10 @@ class HotelService
     public  static function getHotel($hotelId)
     {
         $db = new DatabaseConnection();
-        $query = "SELECT * FROM hotels WHERE id = '$hotelId'";
-        $result = mysqli_query($db->con, $query);
+        $table = 'images';
+        $columns = [];
+        $conditions = ['id' => $hotelId];
+        $result = $db->select($table, $conditions, $columns);
         return mysqli_fetch_assoc($result);
     }
 }

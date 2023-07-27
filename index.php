@@ -7,20 +7,21 @@ include('delete.php');
 
 //$a = new HotelService()
 //$a->someMethod();
-
+$db = new DatabaseConnection();
 $hotels = HotelService::getAllHotels();
-$db = new \App\Database\DatabaseConnection();
+// $db = new \App\Database\DatabaseConnection();
+
 $table = 'hotels';
-$columns = ['name', 'type'];
 $conditions = [
     'id' => 1,
-    'name' => 'test'
+    'name' => 'priyanka',
+    'type' => 'rent'
 ];
+$data= $db->delete($table, $conditions);
 /*
 if conditions are empty => ''
 else => WHERE `id`=1 AND `name`='test' AND `type`='rent';
 */
-$data= $db->select($table, $conditions, $columns);
 
 ?>
 

@@ -72,32 +72,45 @@ class DatabaseConnection
         }
 
         $conds = '';
-        $lastCondition = end($conditions);
+        $lastKey = key($conditions);
         //logic
         if (count($conditions) > 0) {
             $conds = 'WHERE ';
+            end($conditions);
             foreach ($conditions as $column => $value){
-                if($column == $lastCondition){
-                    $conds .= "`{$column}` = '{$value}'";
+                if($column == $lastKey){
+                    $conds .= "`{$column}` = '{$value}';";
                 } else {
-                    $conds .= "`{$column}` = '{$value}' AND ";
+                    $conds .= "`{$column}` " . (is_numeric($value) ? "= {$value}" : "= '{$value}'") . " AND ";
                 }
             }
-        }  
-        $query = "SELECT {$cols} FROM `{$table}` {$conds}";
-         echo $query;
-         exit;
-        $result = mysqli_query($this->con, $query);
-        $data = [];
-        while ($row = mysqli_fetch_assoc($result))
-        {
-          $data[] = $row;  
         }
-        echo $query;"<br>";
+        $query = "SELECT {$cols} FROM `{$table}` {$conds}";
+        $result = mysqli_query($this->con, $query);
+        return $result;         
+    }
+    
+    // DELETE QUERY FUNCTION
 
-        
-        
-          
+    public function delete($table , $conditions = [])
+    { 
+        $cond = '';
+        if(count($conditions) > 0){
+           $conds = 'WHERE ';
+           $lastKey = end($conditions);
+           foreach ($conditions as $column => $value){
+               if($value == $lastKey){
+                   $conds .= "`{$column}` = '{$value}';";
+                } else {
+                    $conds .= "`{$column}` " . (is_numeric($value) ? "= {$value}" : "= '{$value}'") . " AND ";
+                }
+            } 
+        }
+        $deleteQuery = "DELETE FROM `{$table}`  {$conds}";
+        $result = mysqli_query($this->con, $deleteQuery);
+        $result;
+    
+
     }
 }
 ?>
